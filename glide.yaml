@@ -2,3 +2,5 @@ package: github.com/jvikstedt/alarmii
 import:
 - package: github.com/Sirupsen/logrus
   version: v0.10.0
+- package: github.com/rifflock/lfshook
+  version: v1.1

@@ -1,11 +1,21 @@
 package main
 
-import "github.com/jvikstedt/alarmii/logger"
+import (
+	log "github.com/Sirupsen/logrus"
+	"github.com/rifflock/lfshook"
+)
+
+func setupLogger() {
+	log.AddHook(lfshook.NewHook(lfshook.PathMap{
+		log.InfoLevel:  "log/info.log",
+		log.ErrorLevel: "log/error.log",
+	}))
+}
 
 func init() {
-	logger.Setup("development.log")
+	setupLogger()
 }
 
 func main() {
-	logger.Cleanup()
+	log.Info("test")
 }
