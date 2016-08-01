@@ -19,8 +19,8 @@ func init() {
 }
 
 func main() {
-	projects := LoadProjects("test.json")
-	output, _ := exec.Command(projects[0].Jobs[0].Command, projects[0].Jobs[0].Arguments...).Output()
-	log.Info(projects)
+	config := LoadConfig("config.json")
+	output, _ := exec.Command(config.Projects[0].Jobs[0].Command, config.Projects[0].Jobs[0].Arguments...).Output()
+	log.Info(config)
 	log.Info(string(output))
 }

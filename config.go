@@ -5,6 +5,11 @@ import (
 	"io/ioutil"
 )
 
+// Config config contains configuration options
+type Config struct {
+	Projects []Project `json:"projects"`
+}
+
 // Project struct that defines a project
 type Project struct {
 	Name        string `json:"name"`
@@ -19,13 +24,13 @@ type Job struct {
 	ExpectedResult map[string]string `json:"expected_result"`
 }
 
-// LoadProjects loads projects from specified file
+// LoadConfig loads config from specified file
 // Expects json file
-func LoadProjects(filePath string) (projects []Project) {
+func LoadConfig(filePath string) (config Config) {
 	file, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		panic(err)
 	}
-	json.Unmarshal(file, &projects)
+	json.Unmarshal(file, &config)
 	return
 }
