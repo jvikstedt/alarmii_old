@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"os/exec"
 
 	log "github.com/Sirupsen/logrus"
@@ -20,16 +19,8 @@ func init() {
 }
 
 func main() {
-	testJSON := []byte(`{
-		"name": "TestProject",
-		"description": "Testing...",
-		"jobs": [
-		{"command": "echo", "arguments": ["-n", "{\"status\":\"200\"}"], "expected_result": {"status": "200"}}
-		]
-	}`)
-	var project Project
-	json.Unmarshal(testJSON, &project)
-	log.Info(project)
-	output, _ := exec.Command(project.Jobs[0].Command, project.Jobs[0].Arguments...).Output()
+	projects := LoadProjects("test.json")
+	output, _ := exec.Command(projects[0].Jobs[0].Command, projects[0].Jobs[0].Arguments...).Output()
+	log.Info(projects)
 	log.Info(string(output))
 }

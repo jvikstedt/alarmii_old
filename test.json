@@ -1,0 +1,9 @@
+[
+  {
+    "name": "TestProject",
+    "description": "Testing...",
+    "jobs": [
+      {"command": "echo", "arguments": ["-n", "{\"status\":\"200\"}"], "expected_result": {"status": "200"}}
+    ]
+  }
+]
