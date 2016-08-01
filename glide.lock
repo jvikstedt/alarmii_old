@@ -1,5 +1,5 @@
-hash: d9659a0ea0bd8cc8ac45ac1c69ca1aaecfaaba6fec6b95487ef7d863c03adaab
-updated: 2016-08-01T20:51:47.371062625+03:00
+hash: 8382c741e2fada00f290cd3a9a812b404f4150dd814ef65e3d6be0657d6cfca2
+updated: 2016-08-01T23:09:56.952531992+03:00
 imports:
 - name: github.com/rifflock/lfshook
   version: f9d14dda07b109a7aa56f135c31b34062eb14392
@@ -9,4 +9,6 @@ imports:
   version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
   - unix
+- name: gopkg.in/urfave/cli.v1
+  version: 1efa31f08b9333f1bd4882d61f9d668a70cd902e
 testImports: []
