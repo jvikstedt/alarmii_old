@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -36,7 +37,8 @@ func main() {
 			Usage: "Prints config",
 			Action: func(c *cli.Context) error {
 				config := LoadConfig("config.json")
-				log.Info(config)
+				conf, _ := json.MarshalIndent(config, "", "  ")
+				fmt.Println(string(conf))
 				return nil
 			},
 		},
