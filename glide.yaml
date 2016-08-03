@@ -6,3 +6,5 @@ import:
   version: v1.1
 - package: gopkg.in/urfave/cli.v1
   version: v1.18.0
+- package: github.com/boltdb/bolt
+  version: v1.2.1
