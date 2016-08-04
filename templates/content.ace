@@ -1,0 +1,4 @@
+= content main
+  {{ range .Projects }}
+    {{ .Name }}
+  {{ end }}

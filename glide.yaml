@@ -12,3 +12,5 @@ import:
   version: v1.1.3
   subpackages:
   - assert
+- package: github.com/yosssi/ace
+  version: v0.0.4

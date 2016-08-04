@@ -1,7 +1,6 @@
 package main
 
 import (
-	"html/template"
 	"net/http"
 	"os"
 
@@ -10,6 +9,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/jvikstedt/alarmii/models"
 	"github.com/rifflock/lfshook"
+	"github.com/yosssi/ace"
 )
 
 func setupLogger() {
@@ -40,9 +40,19 @@ func main() {
 }
 
 func test(w http.ResponseWriter, r *http.Request) {
-	t := template.New("welcome.html")
-	t, _ = t.ParseFiles("templates/welcome.html")
-	t.Execute(w, nil)
+	tpl, err := ace.Load("templates/layout", "templates/content", nil)
+	projects, _ := models.GetProjects()
+	data := map[string]interface{}{
+		"Projects": projects,
+	}
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if err := tpl.Execute(w, data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func startServer() {
