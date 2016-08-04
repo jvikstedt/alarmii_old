@@ -20,6 +20,8 @@ type Job struct {
 	ExpectedResult map[string]string `json:"expected_result"`
 }
 
+var bucketName = []byte("projects")
+
 // SaveProject saves a project to database
 func SaveProject(project Project) (err error) {
 	encoded, err := json.Marshal(project)
@@ -27,7 +29,7 @@ func SaveProject(project Project) (err error) {
 		return err
 	}
 	err = Database.Update(func(tx *bolt.Tx) error {
-		b, err := tx.CreateBucketIfNotExists([]byte("projects"))
+		b, err := tx.CreateBucketIfNotExists(bucketName)
 		if err != nil {
 			return err
 		}
@@ -39,7 +41,7 @@ func SaveProject(project Project) (err error) {
 // GetProjects gets all projects from database
 func GetProjects() (projects []Project, err error) {
 	err = Database.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("projects"))
+		b := tx.Bucket(bucketName)
 		b.ForEach(func(k, v []byte) error {
 			var project Project
 			err = json.Unmarshal(v, &project)
@@ -57,7 +59,7 @@ func GetProjects() (projects []Project, err error) {
 // GetProjectByName gets single project by name from database
 func GetProjectByName(name string) (project Project, err error) {
 	err = Database.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("projects"))
+		b := tx.Bucket(bucketName)
 		bytes := b.Get([]byte(name))
 		err = json.Unmarshal(bytes, &project)
 		return err
@@ -68,7 +70,7 @@ func GetProjectByName(name string) (project Project, err error) {
 // DeleteProjectByName deletes project by name
 func DeleteProjectByName(name string) (err error) {
 	err = Database.Update(func(tx *bolt.Tx) error {
-		b, err := tx.CreateBucketIfNotExists([]byte("projects"))
+		b, err := tx.CreateBucketIfNotExists(bucketName)
 		if err != nil {
 			return err
 		}
