@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"os"
 
 	"github.com/boltdb/bolt"
 )
@@ -21,4 +22,11 @@ func OpenDatabase(dbPath string) {
 // CloseDatabase closes database
 func CloseDatabase() {
 	Database.Close()
+}
+
+// ClearDatabase removes db file and recreates it
+func ClearDatabase(dbPath string) {
+	CloseDatabase()
+	os.Remove(dbPath)
+	OpenDatabase(dbPath)
 }

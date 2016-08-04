@@ -20,6 +20,7 @@ type Job struct {
 	ExpectedResult map[string]string `json:"expected_result"`
 }
 
+// SaveProject saves a project to database
 func SaveProject(project Project) (err error) {
 	encoded, err := json.Marshal(project)
 	if err != nil {
@@ -35,6 +36,7 @@ func SaveProject(project Project) (err error) {
 	return
 }
 
+// GetProjects gets all projects from database
 func GetProjects() (projects []Project, err error) {
 	err = Database.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("projects"))
@@ -52,6 +54,7 @@ func GetProjects() (projects []Project, err error) {
 	return
 }
 
+// GetProjectByName gets single project by name from database
 func GetProjectByName(name string) (project Project, err error) {
 	err = Database.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("projects"))

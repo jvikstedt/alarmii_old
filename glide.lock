@@ -1,5 +1,5 @@
-hash: 82276eab028e54bb6030b8c477d04eed3221be751bd7fffebb2e7ed4325c2114
-updated: 2016-08-03T22:43:44.261585581+03:00
+hash: 413da87b21083628e8af45ca1c2fd36559686b2f02136df3dc604d44ecfccb40
+updated: 2016-08-04T11:30:46.031902258+03:00
 imports:
 - name: github.com/boltdb/bolt
   version: dfb21201d9270c1082d5fb0f07f500311ff72f18
@@ -7,6 +7,10 @@ imports:
   version: f9d14dda07b109a7aa56f135c31b34062eb14392
 - name: github.com/Sirupsen/logrus
   version: 4b6ea7319e214d98c938f12692336f7ca9348d6b
+- name: github.com/stretchr/testify
+  version: f390dcf405f7b83c997eac1b06768bb9f44dec18
+  subpackages:
+  - assert
 - name: golang.org/x/sys
   version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
