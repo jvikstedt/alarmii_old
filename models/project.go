@@ -64,6 +64,9 @@ func GetProjects() (projects []Project, err error) {
 func GetProjectByName(name string) (project Project, err error) {
 	err = Database.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(bucketName)
+		if b == nil {
+			return nil
+		}
 		bytes := b.Get([]byte(name))
 		err = json.Unmarshal(bytes, &project)
 		return err
