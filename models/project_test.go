@@ -34,3 +34,12 @@ func TestGetProjectByName(t *testing.T) {
 	assert.Equal(t, project.Name, "Something")
 	assert.Equal(t, project.Description, "Cool")
 }
+
+func TestDeleteProjectByName(t *testing.T) {
+	err := DeleteProjectByName("Something")
+	assert.Nil(t, err)
+
+	projects, err := GetProjects()
+	assert.Nil(t, err)
+	assert.Equal(t, len(projects), 0)
+}

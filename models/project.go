@@ -64,3 +64,15 @@ func GetProjectByName(name string) (project Project, err error) {
 	})
 	return
 }
+
+// DeleteProjectByName deletes project by name
+func DeleteProjectByName(name string) (err error) {
+	err = Database.Update(func(tx *bolt.Tx) error {
+		b, err := tx.CreateBucketIfNotExists([]byte("projects"))
+		if err != nil {
+			return err
+		}
+		return b.Delete([]byte(name))
+	})
+	return
+}
