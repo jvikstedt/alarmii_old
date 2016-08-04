@@ -64,8 +64,6 @@ func main() {
 	}
 	app.Run(os.Args)
 
-	//config := LoadConfig("config.json")
-	//output, _ := exec.Command(config.Projects[0].Jobs[0].Command, config.Projects[0].Jobs[0].Arguments...).Output()
 	models.CloseDatabase()
 }
 
