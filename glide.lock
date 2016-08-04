@@ -1,10 +1,12 @@
-hash: 0852a47f905501e0d402e4573e3c05dfae03bab9356dd49927cf6b5c547c7fa3
-updated: 2016-08-04T12:44:51.059288312+03:00
+hash: c5c09f1ddf25fa7f74e1b62bb7a61d0b86c1f2f5b724c87dc90aa8b4e6c008bb
+updated: 2016-08-04T21:26:11.125303087+03:00
 imports:
 - name: github.com/boltdb/bolt
   version: dfb21201d9270c1082d5fb0f07f500311ff72f18
 - name: github.com/rifflock/lfshook
   version: f9d14dda07b109a7aa56f135c31b34062eb14392
+- name: github.com/robfig/cron
+  version: b024fc5ea0e34bc3f83d9941c8d60b0622bfaca4
 - name: github.com/Sirupsen/logrus
   version: 4b6ea7319e214d98c938f12692336f7ca9348d6b
 - name: github.com/stretchr/testify

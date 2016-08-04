@@ -1,14 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"os"
+	"os/exec"
 
 	"gopkg.in/urfave/cli.v1"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/jvikstedt/alarmii/models"
 	"github.com/rifflock/lfshook"
+	"github.com/robfig/cron"
 	"github.com/yosssi/ace"
 )
 
@@ -19,9 +22,36 @@ func setupLogger() {
 	}))
 }
 
+func setupScheduler() {
+	c := cron.New()
+	projects, _ := models.GetProjects()
+	for _, p := range projects {
+		for _, j := range p.Jobs {
+			if j.Timing == "" {
+				continue
+			}
+			c.AddFunc(j.Timing, func() {
+				output, _ := exec.Command(j.Command, j.Arguments...).Output()
+				var objmap map[string]string
+				json.Unmarshal(output, &objmap)
+				for k, v := range j.ExpectedResult {
+					log.Info(objmap[k] + " == " + v)
+				}
+			})
+		}
+	}
+	c.Start()
+}
+
 func init() {
 	setupLogger()
 	models.OpenDatabase("alarmii.db")
+	job := models.Job{Timing: "@every 10s", Command: "echo", Arguments: []string{"{\"status\":\"200\"}"}, ExpectedResult: map[string]string{"status": "200"}}
+	var jobs []models.Job
+	jobs = append(jobs, job)
+	project := models.Project{Name: "Something", Description: "jep", Jobs: jobs}
+	models.SaveProject(project)
+	setupScheduler()
 }
 
 func main() {

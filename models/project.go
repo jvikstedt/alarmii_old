@@ -15,6 +15,7 @@ type Project struct {
 
 // Job struct that defines a job
 type Job struct {
+	Timing         string            `json:"timing"`
 	Command        string            `json:"command"`
 	Arguments      []string          `json:"arguments"`
 	ExpectedResult map[string]string `json:"expected_result"`
@@ -42,6 +43,9 @@ func SaveProject(project Project) (err error) {
 func GetProjects() (projects []Project, err error) {
 	err = Database.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(bucketName)
+		if b == nil {
+			return nil
+		}
 		b.ForEach(func(k, v []byte) error {
 			var project Project
 			err = json.Unmarshal(v, &project)
