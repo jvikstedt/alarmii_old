@@ -8,7 +8,7 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	os.Remove("tmp/test.db")
+	os.Remove("/tmp/test.db")
 	OpenDatabase("/tmp/test.db")
 	retCode := m.Run()
 	CloseDatabase()
@@ -28,15 +28,15 @@ func TestGetProjects(t *testing.T) {
 	assert.Equal(t, projects[0].Name, "Something")
 }
 
-func TestGetProjectByName(t *testing.T) {
-	project, err := GetProjectByName("Something")
+func TestGetProjectByID(t *testing.T) {
+	project, err := GetProjectByID(1)
 	assert.Nil(t, err)
 	assert.Equal(t, project.Name, "Something")
 	assert.Equal(t, project.Description, "Cool")
 }
 
-func TestDeleteProjectByName(t *testing.T) {
-	err := DeleteProjectByName("Something")
+func TestDeleteProjectByID(t *testing.T) {
+	err := DeleteProjectByID(1)
 	assert.Nil(t, err)
 
 	projects, err := GetProjects()

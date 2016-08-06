@@ -4,24 +4,17 @@ import (
 	"encoding/json"
 
 	"github.com/boltdb/bolt"
+	"github.com/jvikstedt/alarmii/helper"
 )
 
 // Project struct that defines a project
 type Project struct {
+	ID          int    `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	Jobs        []Job  `json:"jobs"`
 }
 
-// Job struct that defines a job
-type Job struct {
-	Timing         string            `json:"timing"`
-	Command        string            `json:"command"`
-	Arguments      []string          `json:"arguments"`
-	ExpectedResult map[string]string `json:"expected_result"`
-}
-
-var bucketName = []byte("projects")
+var projectsBucket = []byte("projects")
 
 // SaveProject saves a project to database
 func SaveProject(project Project) (err error) {
@@ -30,11 +23,17 @@ func SaveProject(project Project) (err error) {
 		return err
 	}
 	err = Database.Update(func(tx *bolt.Tx) error {
-		b, err := tx.CreateBucketIfNotExists(bucketName)
+		b, err := tx.CreateBucketIfNotExists(projectsBucket)
 		if err != nil {
 			return err
 		}
-		return b.Put([]byte(project.Name), encoded)
+		id, err := b.NextSequence()
+		project.ID = int(id)
+
+		if err != nil {
+			return err
+		}
+		return b.Put(helper.Itob(project.ID), encoded)
 	})
 	return
 }
@@ -42,7 +41,7 @@ func SaveProject(project Project) (err error) {
 // GetProjects gets all projects from database
 func GetProjects() (projects []Project, err error) {
 	err = Database.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket(bucketName)
+		b := tx.Bucket(projectsBucket)
 		if b == nil {
 			return nil
 		}
@@ -60,28 +59,28 @@ func GetProjects() (projects []Project, err error) {
 	return
 }
 
-// GetProjectByName gets single project by name from database
-func GetProjectByName(name string) (project Project, err error) {
+// GetProjectByID gets single project id from database
+func GetProjectByID(id int) (project Project, err error) {
 	err = Database.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket(bucketName)
+		b := tx.Bucket(projectsBucket)
 		if b == nil {
 			return nil
 		}
-		bytes := b.Get([]byte(name))
+		bytes := b.Get(helper.Itob(id))
 		err = json.Unmarshal(bytes, &project)
 		return err
 	})
 	return
 }
 
-// DeleteProjectByName deletes project by name
-func DeleteProjectByName(name string) (err error) {
+// DeleteProjectByID deletes project by id
+func DeleteProjectByID(id int) (err error) {
 	err = Database.Update(func(tx *bolt.Tx) error {
-		b, err := tx.CreateBucketIfNotExists(bucketName)
+		b, err := tx.CreateBucketIfNotExists(projectsBucket)
 		if err != nil {
 			return err
 		}
-		return b.Delete([]byte(name))
+		return b.Delete(helper.Itob(id))
 	})
 	return
 }
