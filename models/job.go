@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"os/exec"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/boltdb/bolt"
@@ -21,7 +22,7 @@ type Job struct {
 var jobsBucket = []byte("jobs")
 
 // SaveJob saves a job to database
-func SaveJob(job Job) (err error) {
+func SaveJob(job *Job) (err error) {
 	encoded, err := json.Marshal(job)
 	if err != nil {
 		return err
@@ -89,12 +90,39 @@ func DeleteJobByID(id int) (err error) {
 	return
 }
 
-// CronTime returns timing
-func (j Job) CronTime() string {
-	return j.Timing
+// Runnable creates a Runnable that contains information about job
+func (j Job) Runnable() Runnable {
+	return Runnable{j.ID}
 }
 
-// Execute runs job
-func (j Job) Execute() {
-	log.Info(j.Command)
+// Runnable struct that implements scheduler.Schedulable interface
+// Reason using this instead of job itself is that this way we force
+// database reload before running job and job scheduler does not keep all
+// jobs in memory
+type Runnable struct {
+	JobID int
+}
+
+// Run handles loadin job by id from database and executing it
+func (r Runnable) Run() {
+	job, err := GetJobByID(r.JobID)
+	if err != nil {
+		return
+	}
+
+	output, _ := exec.Command(job.Command, job.Arguments...).Output()
+	var objmap map[string]string
+	json.Unmarshal(output, &objmap)
+	for k, v := range job.ExpectedResult {
+		log.Info(objmap[k] + " == " + v)
+	}
+}
+
+// CronTime returns Timing for a job
+func (r Runnable) CronTime() string {
+	job, err := GetJobByID(r.JobID)
+	if err != nil {
+		return ""
+	}
+	return job.Timing
 }

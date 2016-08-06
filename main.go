@@ -24,9 +24,10 @@ func init() {
 	setupLogger()
 	models.OpenDatabase("alarmii.db")
 	job := models.Job{Timing: "@every 10s", Command: "echo", Arguments: []string{"{\"status\":\"200\"}"}, ExpectedResult: map[string]string{"status": "200"}}
+	models.SaveJob(&job)
 
 	scheduler.SetupScheduler()
-	scheduler.AddScheduleable(job)
+	scheduler.AddSchedulable(job.Runnable())
 	scheduler.StartScheduler()
 }
 

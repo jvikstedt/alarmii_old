@@ -6,9 +6,9 @@ import (
 	"github.com/robfig/cron"
 )
 
-// Scheduleable interface for running schedules
-type Scheduleable interface {
-	Execute()
+// Schedulable interface that can be used to start a new schedulable
+type Schedulable interface {
+	Run()
 	CronTime() string
 }
 
@@ -19,23 +19,23 @@ func SetupScheduler() {
 	c = cron.New()
 }
 
-// StartScheduler starts running scheduleables
+// StartScheduler starts running jobs
 func StartScheduler() {
 	c.Start()
 }
 
-// StopScheduler stops running scheduleables
+// StopScheduler stops running jobs
 func StopScheduler() {
 	c.Stop()
 }
 
-// AddScheduleable adds a scheduleable
-func AddScheduleable(scheduleable Scheduleable) (err error) {
-	cronTime := scheduleable.CronTime()
-	if cronTime == "" {
-		err = errors.New("CronTime not set")
+// AddSchedulable adds a schedulable
+func AddSchedulable(schedulable Schedulable) (err error) {
+	if time := schedulable.CronTime(); time == "" {
+		err = errors.New("schedulable.CronTime() returned an empty string")
+	} else {
+		err = c.AddJob(time, schedulable)
 	}
-	err = c.AddFunc(cronTime, scheduleable.Execute)
 	return
 }
 
