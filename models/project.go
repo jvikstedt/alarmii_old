@@ -17,8 +17,8 @@ type Project struct {
 var projectsBucket = []byte("projects")
 
 // SaveProject saves a project to database
-func SaveProject(project *Project) (err error) {
-	encoded, err := json.Marshal(project)
+func (p *Project) SaveProject() (err error) {
+	encoded, err := json.Marshal(p)
 	if err != nil {
 		return err
 	}
@@ -27,13 +27,15 @@ func SaveProject(project *Project) (err error) {
 		if err != nil {
 			return err
 		}
-		id, err := b.NextSequence()
-		project.ID = int(id)
-
-		if err != nil {
-			return err
+		if p.ID == 0 {
+			id, err := b.NextSequence()
+			if err != nil {
+				return err
+			}
+			p.ID = int(id)
 		}
-		return b.Put(helper.Itob(project.ID), encoded)
+
+		return b.Put(helper.Itob(p.ID), encoded)
 	})
 	return
 }

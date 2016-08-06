@@ -17,7 +17,7 @@ func TestMain(m *testing.M) {
 
 func TestSaveProject(t *testing.T) {
 	project := Project{Name: "Something", Description: "Cool"}
-	err := SaveProject(&project)
+	err := project.SaveProject()
 	assert.Nil(t, err)
 }
 

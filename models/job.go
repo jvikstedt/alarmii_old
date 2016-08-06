@@ -22,8 +22,8 @@ type Job struct {
 var jobsBucket = []byte("jobs")
 
 // SaveJob saves a job to database
-func SaveJob(job *Job) (err error) {
-	encoded, err := json.Marshal(job)
+func (j *Job) SaveJob() (err error) {
+	encoded, err := json.Marshal(j)
 	if err != nil {
 		return err
 	}
@@ -32,13 +32,15 @@ func SaveJob(job *Job) (err error) {
 		if err != nil {
 			return err
 		}
-		id, err := b.NextSequence()
-		job.ID = int(id)
-
-		if err != nil {
-			return err
+		if j.ID == 0 {
+			id, err := b.NextSequence()
+			if err != nil {
+				return err
+			}
+			j.ID = int(id)
 		}
-		return b.Put(helper.Itob(job.ID), encoded)
+
+		return b.Put(helper.Itob(j.ID), encoded)
 	})
 	return
 }
