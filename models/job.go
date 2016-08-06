@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/boltdb/bolt"
 	"github.com/jvikstedt/alarmii/helper"
 )
@@ -86,4 +87,14 @@ func DeleteJobByID(id int) (err error) {
 		return b.Delete(helper.Itob(id))
 	})
 	return
+}
+
+// CronTime returns timing
+func (j Job) CronTime() string {
+	return j.Timing
+}
+
+// Execute runs job
+func (j Job) Execute() {
+	log.Info(j.Command)
 }
