@@ -8,7 +8,7 @@ import (
 
 func TestSaveJob(t *testing.T) {
 	job := Job{Timing: "@every 10s"}
-	err := SaveJob(job)
+	err := SaveJob(&job)
 	assert.Nil(t, err)
 }
 

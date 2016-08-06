@@ -17,7 +17,7 @@ type Project struct {
 var projectsBucket = []byte("projects")
 
 // SaveProject saves a project to database
-func SaveProject(project Project) (err error) {
+func SaveProject(project *Project) (err error) {
 	encoded, err := json.Marshal(project)
 	if err != nil {
 		return err
