@@ -38,24 +38,3 @@ func AddSchedulable(schedulable Schedulable) (err error) {
 	}
 	return
 }
-
-//func setupScheduler() {
-//	c := cron.New()
-//	projects, _ := models.GetProjects()
-//	for _, p := range projects {
-//		for _, j := range p.Jobs {
-//			if j.Timing == "" {
-//				continue
-//			}
-//			c.AddFunc(j.Timing, func() {
-//				output, _ := exec.Command(j.Command, j.Arguments...).Output()
-//				var objmap map[string]string
-//				json.Unmarshal(output, &objmap)
-//				for k, v := range j.ExpectedResult {
-//					log.Info(objmap[k] + " == " + v)
-//				}
-//			})
-//		}
-//	}
-//	c.Start()
-//}
