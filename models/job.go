@@ -2,9 +2,9 @@ package models
 
 import (
 	"encoding/json"
+	"log"
 	"os/exec"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/boltdb/bolt"
 	"github.com/jvikstedt/alarmii/helper"
 )
@@ -116,7 +116,7 @@ func (r Runnable) Run() {
 	var objmap map[string]string
 	json.Unmarshal(output, &objmap)
 	for k, v := range job.ExpectedResult {
-		log.Info(objmap[k] + " == " + v)
+		log.Println(objmap[k] + " == " + v)
 	}
 }
 

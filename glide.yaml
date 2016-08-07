@@ -1,7 +1,5 @@
 package: github.com/jvikstedt/alarmii
 import:
-- package: github.com/Sirupsen/logrus
-  version: v0.10.0
 - package: gopkg.in/urfave/cli.v1
   version: v1.18.0
 - package: github.com/boltdb/bolt

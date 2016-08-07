@@ -1,5 +1,5 @@
-hash: a018d45a7425872ce6132cda35b1a886e6501e2813850007174dd2cf54ba0dfa
-updated: 2016-08-07T22:18:59.487487406+03:00
+hash: 20603993396da658be9a64e1dd7a37138e57914ab7c1e49a0f76ca2f0d6ec454
+updated: 2016-08-07T22:57:24.24291079+03:00
 imports:
 - name: github.com/boltdb/bolt
   version: dfb21201d9270c1082d5fb0f07f500311ff72f18
@@ -13,8 +13,6 @@ imports:
   - difflib
 - name: github.com/robfig/cron
   version: b024fc5ea0e34bc3f83d9941c8d60b0622bfaca4
-- name: github.com/Sirupsen/logrus
-  version: 4b6ea7319e214d98c938f12692336f7ca9348d6b
 - name: github.com/stretchr/testify
   version: f390dcf405f7b83c997eac1b06768bb9f44dec18
   subpackages:

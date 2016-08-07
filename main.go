@@ -1,28 +1,20 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 
 	"gopkg.in/urfave/cli.v1"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/jvikstedt/alarmii/helper"
 	"github.com/jvikstedt/alarmii/models"
 	"github.com/jvikstedt/alarmii/scheduler"
 	"github.com/yosssi/ace"
 )
 
-func setupLogger() {
-	f, err := os.OpenFile("log/info.log", os.O_WRONLY|os.O_CREATE, 0755)
-	if err != nil {
-		panic(err)
-	}
-	log.SetOutput(f)
-	log.SetLevel(log.InfoLevel)
-}
-
 func init() {
-	setupLogger()
+	helper.SetupLogger("log/info.log")
 	models.OpenDatabase("alarmii.db")
 	job := models.Job{Timing: "@every 10s", Command: "echo", Arguments: []string{"{\"status\":\"200\"}"}, ExpectedResult: map[string]string{"status": "200"}}
 	job.SaveJob()
