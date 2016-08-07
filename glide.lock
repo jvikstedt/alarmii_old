@@ -1,5 +1,5 @@
-hash: 20603993396da658be9a64e1dd7a37138e57914ab7c1e49a0f76ca2f0d6ec454
-updated: 2016-08-07T22:57:24.24291079+03:00
+hash: 091de9c327ca36ef1e8c6d1752b2ab52b4832983f412c83f06c975f6c3ab7e9b
+updated: 2016-08-07T23:39:21.050507694+03:00
 imports:
 - name: github.com/boltdb/bolt
   version: dfb21201d9270c1082d5fb0f07f500311ff72f18
@@ -17,8 +17,6 @@ imports:
   version: f390dcf405f7b83c997eac1b06768bb9f44dec18
   subpackages:
   - assert
-- name: github.com/yosssi/ace
-  version: 606a099954ebaff295fad3bd64d0ac0c45749571
 - name: golang.org/x/sys
   version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
