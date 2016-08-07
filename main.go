@@ -9,15 +9,16 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/jvikstedt/alarmii/models"
 	"github.com/jvikstedt/alarmii/scheduler"
-	"github.com/rifflock/lfshook"
 	"github.com/yosssi/ace"
 )
 
 func setupLogger() {
-	log.AddHook(lfshook.NewHook(lfshook.PathMap{
-		log.InfoLevel:  "log/info.log",
-		log.ErrorLevel: "log/error.log",
-	}))
+	f, err := os.OpenFile("log/info.log", os.O_WRONLY|os.O_CREATE, 0755)
+	if err != nil {
+		panic(err)
+	}
+	log.SetOutput(f)
+	log.SetLevel(log.InfoLevel)
 }
 
 func init() {

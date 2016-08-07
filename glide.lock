@@ -1,10 +1,16 @@
-hash: c5c09f1ddf25fa7f74e1b62bb7a61d0b86c1f2f5b724c87dc90aa8b4e6c008bb
-updated: 2016-08-04T21:26:11.125303087+03:00
+hash: a018d45a7425872ce6132cda35b1a886e6501e2813850007174dd2cf54ba0dfa
+updated: 2016-08-07T22:18:59.487487406+03:00
 imports:
 - name: github.com/boltdb/bolt
   version: dfb21201d9270c1082d5fb0f07f500311ff72f18
-- name: github.com/rifflock/lfshook
-  version: f9d14dda07b109a7aa56f135c31b34062eb14392
+- name: github.com/davecgh/go-spew
+  version: 2df174808ee097f90d259e432cc04442cf60be21
+  subpackages:
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  subpackages:
+  - difflib
 - name: github.com/robfig/cron
   version: b024fc5ea0e34bc3f83d9941c8d60b0622bfaca4
 - name: github.com/Sirupsen/logrus
@@ -21,12 +27,4 @@ imports:
   - unix
 - name: gopkg.in/urfave/cli.v1
   version: 1efa31f08b9333f1bd4882d61f9d668a70cd902e
-testImports:
-- name: github.com/davecgh/go-spew
-  version: 2df174808ee097f90d259e432cc04442cf60be21
-  subpackages:
-  - spew
-- name: github.com/pmezard/go-difflib
-  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
-  subpackages:
-  - difflib
+testImports: []
