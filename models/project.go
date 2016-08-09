@@ -18,10 +18,6 @@ var projectsBucket = []byte("projects")
 
 // SaveProject saves a project to database
 func (p *Project) SaveProject() (err error) {
-	encoded, err := json.Marshal(p)
-	if err != nil {
-		return err
-	}
 	err = Database.Update(func(tx *bolt.Tx) error {
 		b, err := tx.CreateBucketIfNotExists(projectsBucket)
 		if err != nil {
@@ -33,6 +29,11 @@ func (p *Project) SaveProject() (err error) {
 				return err
 			}
 			p.ID = int(id)
+		}
+
+		encoded, err := json.Marshal(p)
+		if err != nil {
+			return err
 		}
 
 		return b.Put(helper.Itob(p.ID), encoded)

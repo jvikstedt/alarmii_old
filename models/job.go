@@ -23,10 +23,6 @@ var jobsBucket = []byte("jobs")
 
 // SaveJob saves a job to database
 func (j *Job) SaveJob() (err error) {
-	encoded, err := json.Marshal(j)
-	if err != nil {
-		return err
-	}
 	err = Database.Update(func(tx *bolt.Tx) error {
 		b, err := tx.CreateBucketIfNotExists(jobsBucket)
 		if err != nil {
@@ -38,6 +34,11 @@ func (j *Job) SaveJob() (err error) {
 				return err
 			}
 			j.ID = int(id)
+		}
+
+		encoded, err := json.Marshal(j)
+		if err != nil {
+			return err
 		}
 
 		return b.Put(helper.Itob(j.ID), encoded)
