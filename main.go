@@ -5,6 +5,7 @@ import (
 
 	"gopkg.in/urfave/cli.v1"
 
+	"github.com/jvikstedt/alarmii/commands"
 	"github.com/jvikstedt/alarmii/helper"
 	"github.com/jvikstedt/alarmii/models"
 )
@@ -20,7 +21,12 @@ func main() {
 	app.Usage = ""
 
 	app.Commands = []cli.Command{
-		commandStart(),
+		{
+			Name:    "start",
+			Aliases: []string{"s"},
+			Usage:   "Start alarmii process",
+			Action:  commands.StartProcess,
+		},
 	}
 
 	app.Run(os.Args)
