@@ -34,5 +34,14 @@ func setupCommands(app *cli.App) {
 			Usage:   "Start alarmii process",
 			Action:  commands.StartProcess,
 		},
+		{
+			Name: "job",
+			Subcommands: []cli.Command{
+				{
+					Name:   "list",
+					Action: commands.ListJobs,
+				},
+			},
+		},
 	}
 }

@@ -34,3 +34,14 @@ func StartProcess(c *cli.Context) (err error) {
 	}
 	return
 }
+
+func ListJobs(c *cli.Context) (err error) {
+	jobs, err := models.GetJobs()
+	if err != nil {
+		return
+	}
+	for _, v := range jobs {
+		fmt.Println(v)
+	}
+	return
+}
