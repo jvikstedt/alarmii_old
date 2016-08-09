@@ -28,6 +28,8 @@ func commandStart() cli.Command {
 			}
 			scheduler.StartScheduler()
 			defer scheduler.StopScheduler()
+
+			var running = true
 			for running {
 				reader := bufio.NewReader(os.Stdin)
 				fmt.Println("Type q to quit")

@@ -14,8 +14,6 @@ func init() {
 	models.OpenDatabase("alarmii.db")
 }
 
-var running = true
-
 func main() {
 	app := cli.NewApp()
 	app.Name = "Alarmii"
