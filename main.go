@@ -20,6 +20,13 @@ func main() {
 	app.Name = "Alarmii"
 	app.Usage = ""
 
+	setupCommands(app)
+	app.Run(os.Args)
+
+	models.CloseDatabase()
+}
+
+func setupCommands(app *cli.App) {
 	app.Commands = []cli.Command{
 		{
 			Name:    "start",
@@ -28,8 +35,4 @@ func main() {
 			Action:  commands.StartProcess,
 		},
 	}
-
-	app.Run(os.Args)
-
-	models.CloseDatabase()
 }
