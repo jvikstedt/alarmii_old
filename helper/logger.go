@@ -15,7 +15,7 @@ func SetupLogger(filePath string) {
 }
 
 func (l Logger) Write(p []byte) (n int, err error) {
-	f, err := os.OpenFile("log/info.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	f, err := os.OpenFile("log/info.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0664)
 	if err != nil {
 		return
 	}
