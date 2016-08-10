@@ -40,7 +40,6 @@ func (j *Job) SaveJob() (err error) {
 		if err != nil {
 			return err
 		}
-
 		return b.Put(helper.Itob(j.ID), encoded)
 	})
 	return
