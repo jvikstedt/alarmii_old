@@ -13,6 +13,9 @@ import (
 
 // StartProcess starts persistent process
 func StartProcess(c *cli.Context) (err error) {
+	models.OpenDatabase("alarmii.db")
+	defer models.CloseDatabase()
+
 	helper.SavePID()
 	scheduler.SetupScheduler()
 	jobs, err := models.GetJobs()
@@ -35,6 +38,20 @@ func StartProcess(c *cli.Context) (err error) {
 			running = false
 		}
 	}
+	return
+}
+
+// StopProcess starts persistent process
+func StopProcess(c *cli.Context) (err error) {
+	pid, err := helper.ReadPID()
+	if err != nil {
+		return
+	}
+	process, err := os.FindProcess(pid)
+	if err != nil {
+		return
+	}
+	err = process.Signal(os.Interrupt)
 	return
 }
 

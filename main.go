@@ -7,12 +7,10 @@ import (
 
 	"github.com/jvikstedt/alarmii/commands"
 	"github.com/jvikstedt/alarmii/helper"
-	"github.com/jvikstedt/alarmii/models"
 )
 
 func init() {
 	helper.SetupLogger("log/info.log")
-	models.OpenDatabase("alarmii.db")
 }
 
 func main() {
@@ -22,8 +20,6 @@ func main() {
 
 	setupCommands(app)
 	app.Run(os.Args)
-
-	models.CloseDatabase()
 }
 
 func setupCommands(app *cli.App) {
@@ -33,6 +29,11 @@ func setupCommands(app *cli.App) {
 			Aliases: []string{"s"},
 			Usage:   "Start alarmii process",
 			Action:  commands.StartProcess,
+		},
+		{
+			Name:   "stop",
+			Usage:  "Stop alarmii process",
+			Action: commands.StopProcess,
 		},
 		{
 			Name: "job",
