@@ -1,13 +1,15 @@
 package commands
 
 import (
-	"bufio"
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/jvikstedt/alarmii/helper"
 	"github.com/jvikstedt/alarmii/models"
 	"github.com/jvikstedt/alarmii/scheduler"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/engine/standard"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
@@ -30,14 +32,8 @@ func StartProcess(c *cli.Context) (err error) {
 	scheduler.StartScheduler()
 	defer scheduler.StopScheduler()
 
-	for running := true; running; {
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Println("Type q to quit")
-		text, _ := reader.ReadString('\n')
-		if text == "q\n" {
-			running = false
-		}
-	}
+	runServer()
+
 	return
 }
 
@@ -53,6 +49,14 @@ func StopProcess(c *cli.Context) (err error) {
 	}
 	err = process.Signal(os.Interrupt)
 	return
+}
+
+func runServer() {
+	e := echo.New()
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+	})
+	e.Run(standard.New(":3000"))
 }
 
 // ListJobs list all jobs from database
