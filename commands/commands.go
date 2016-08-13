@@ -2,9 +2,9 @@ package commands
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 
+	"github.com/jvikstedt/alarmii/controllers"
 	"github.com/jvikstedt/alarmii/helper"
 	"github.com/jvikstedt/alarmii/models"
 	"github.com/jvikstedt/alarmii/scheduler"
@@ -53,9 +53,12 @@ func StopProcess(c *cli.Context) (err error) {
 
 func runServer() {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	g := e.Group("/api/v1")
+	g.GET("/jobs", controllers.GetJobs)
+	g.GET("/jobs/:id", controllers.GetJob)
+	g.POST("/jobs", controllers.CreateJob)
+	g.PATCH("/jobs/:id", controllers.UpdateJob)
+	g.DELETE("/jobs/:id", controllers.DeleteJob)
 	e.Run(standard.New(":3000"))
 }
 
