@@ -83,3 +83,33 @@ func ListJobs(c *cli.Context) error {
 	fmt.Println(string(jobsPretty))
 	return nil
 }
+
+// AddJob sends job to server
+func AddJob(c *cli.Context) error {
+	var job models.Job
+	if timing := c.String("timing"); timing != "" {
+		job.Timing = timing
+	}
+	if command := c.String("command"); command != "" {
+		job.Command = command
+	}
+	if arguments := c.StringSlice("arguments"); len(arguments) > 0 {
+		job.Arguments = arguments
+	}
+	if er := c.String("expected_result"); er != "" {
+		var expectedResult map[string]string
+		json.Unmarshal([]byte(er), &expectedResult)
+		job.ExpectedResult = expectedResult
+	}
+	bytes, _ := json.Marshal(job)
+	resp, _, errs := gorequest.New().Post("http://localhost:3000/api/v1/jobs").Send(string(bytes)).End()
+
+	if len(errs) != 0 {
+		return cli.NewExitError(errs[0].Error(), 1)
+	}
+	if resp.StatusCode != 201 {
+		return cli.NewExitError(fmt.Sprintf("Something went wrong, status: %d", resp.StatusCode), 1)
+	}
+	fmt.Println("Succesfully created a job")
+	return nil
+}

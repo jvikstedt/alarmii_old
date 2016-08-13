@@ -42,6 +42,28 @@ func setupCommands(app *cli.App) {
 					Name:   "list",
 					Action: commands.ListJobs,
 				},
+				{
+					Name: "add",
+					Flags: []cli.Flag{
+						cli.StringFlag{
+							Name:  "timing",
+							Usage: "Cron works here",
+						},
+						cli.StringFlag{
+							Name:  "command",
+							Usage: "For example /usr/bin/python",
+						},
+						cli.StringSliceFlag{
+							Name:  "arguments",
+							Usage: "test",
+						},
+						cli.StringFlag{
+							Name:  "expected_result",
+							Usage: "test",
+						},
+					},
+					Action: commands.AddJob,
+				},
 			},
 		},
 	}
