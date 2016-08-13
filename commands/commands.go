@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"time"
@@ -11,6 +12,7 @@ import (
 	"github.com/jvikstedt/alarmii/scheduler"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
+	"github.com/parnurzeal/gorequest"
 	"github.com/tylerb/graceful"
 	cli "gopkg.in/urfave/cli.v1"
 )
@@ -66,14 +68,18 @@ func runServer() {
 	graceful.ListenAndServe(std.Server, 5*time.Second)
 }
 
-// ListJobs list all jobs from database
-func ListJobs(c *cli.Context) (err error) {
-	jobs, err := models.GetJobs()
-	if err != nil {
-		return
+// ListJobs list all jobs from the server
+func ListJobs(c *cli.Context) error {
+	request, body, errs := gorequest.New().Get("http://localhost:3000/api/v1/jobs").End()
+	if len(errs) != 0 {
+		return cli.NewExitError(errs[0].Error(), 1)
 	}
-	for _, v := range jobs {
-		fmt.Println(v)
+	if request.StatusCode != 200 {
+		return cli.NewExitError(fmt.Sprintf("Something went wrong, status: %d", request.StatusCode), 1)
 	}
-	return
+	var jobs []models.Job
+	json.Unmarshal([]byte(body), &jobs)
+	jobsPretty, _ := json.MarshalIndent(jobs, "", "  ")
+	fmt.Println(string(jobsPretty))
+	return nil
 }

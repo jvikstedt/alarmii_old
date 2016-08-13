@@ -10,7 +10,10 @@ import (
 
 // GetJobs retrieves all jobs
 func GetJobs(c echo.Context) error {
-	jobs, _ := models.GetJobs()
+	jobs, err := models.GetJobs()
+	if err != nil {
+		return err
+	}
 	return c.JSON(http.StatusOK, jobs)
 }
 

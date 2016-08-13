@@ -13,3 +13,5 @@ import:
 - package: github.com/labstack/gommon
 - package: github.com/tylerb/graceful
   version: v1.2.11
+- package: github.com/parnurzeal/gorequest
+  version: v0.2.13

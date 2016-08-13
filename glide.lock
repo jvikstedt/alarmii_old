@@ -1,5 +1,5 @@
-hash: be1e37baf05df0965fb2e87580f1daace1f8e14240d91da640f10885d633a303
-updated: 2016-08-13T12:51:21.381833906+03:00
+hash: 097048b34d75d85dcf6c9e9c47866b15e6dc8aba115f6072dcb7e50d9d0b9256
+updated: 2016-08-13T13:49:16.986946709+03:00
 imports:
 - name: github.com/boltdb/bolt
   version: dfb21201d9270c1082d5fb0f07f500311ff72f18
@@ -18,6 +18,10 @@ imports:
   version: ed8eb9e318d7a84ce5915b495b7d35e0cfe7b5a8
 - name: github.com/mattn/go-isatty
   version: 56b76bdf51f7708750eac80fa38b952bb9f32639
+- name: github.com/moul/http2curl
+  version: b1479103caacaa39319f75e7f57fc545287fca0d
+- name: github.com/parnurzeal/gorequest
+  version: b64673b971a1742b8ba91f228f1c029632d4b686
 - name: github.com/robfig/cron
   version: b024fc5ea0e34bc3f83d9941c8d60b0622bfaca4
 - name: github.com/stretchr/testify
@@ -32,6 +36,7 @@ imports:
   version: 07b51741c1d6423d4a6abab1c49940ec09cb1aaf
   subpackages:
   - context
+  - publicsuffix
 - name: golang.org/x/sys
   version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
