@@ -3,6 +3,7 @@ package commands
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/jvikstedt/alarmii/controllers"
 	"github.com/jvikstedt/alarmii/helper"
@@ -10,6 +11,7 @@ import (
 	"github.com/jvikstedt/alarmii/scheduler"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
+	"github.com/tylerb/graceful"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
@@ -59,7 +61,9 @@ func runServer() {
 	g.POST("/jobs", controllers.CreateJob)
 	g.PATCH("/jobs/:id", controllers.UpdateJob)
 	g.DELETE("/jobs/:id", controllers.DeleteJob)
-	e.Run(standard.New(":3000"))
+	std := standard.New(":3000")
+	std.SetHandler(e)
+	graceful.ListenAndServe(std.Server, 5*time.Second)
 }
 
 // ListJobs list all jobs from database
