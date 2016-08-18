@@ -11,12 +11,16 @@ import (
 
 // Job struct that defines a job
 type Job struct {
-	ID             int               `json:"id"`
-	ProjectID      int               `json:"project_id"`
+	ID             int               `json:"id,omitempty"`
+	ProjectID      int               `json:"project_id,omitempty"`
 	Timing         string            `json:"timing"`
 	Command        string            `json:"command"`
 	Arguments      []string          `json:"arguments"`
 	ExpectedResult map[string]string `json:"expected_result"`
+}
+
+func NewJob() Job {
+	return Job{Arguments: []string{}, ExpectedResult: map[string]string{}}
 }
 
 var jobsBucket = []byte("jobs")

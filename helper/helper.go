@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"strconv"
 )
 
@@ -42,4 +43,19 @@ func SavePID() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+// EditFileWithDefaultEditor opens file with default editor
+// If EDITOR env is not set, it uses vi
+func EditFileWithDefaultEditor(filePath string) error {
+	defaultEditor := os.Getenv("EDITOR")
+	if defaultEditor == "" {
+		defaultEditor = "vi"
+	}
+	cmd := exec.Command(defaultEditor, filePath)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
+	return err
 }
