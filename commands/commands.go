@@ -93,15 +93,12 @@ func AddJob(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	err = helper.EditFileWithDefaultEditor("job.json")
+	content, err := helper.EditFileWithDefaultEditor("job.json")
 	if err != nil {
 		return err
 	}
-	bytes, err := ioutil.ReadFile("job.json")
-	if err != nil {
-		return err
-	}
-	json.Unmarshal(bytes, &job)
+	json.Unmarshal(content, &job)
+	fmt.Println(job)
 
 	//bytes, _ := json.Marshal(job)
 	//resp, _, errs := gorequest.New().Post("http://localhost:3000/api/v1/jobs").Send(string(bytes)).End()

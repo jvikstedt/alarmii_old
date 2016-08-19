@@ -47,7 +47,8 @@ func SavePID() {
 
 // EditFileWithDefaultEditor opens file with default editor
 // If EDITOR env is not set, it uses vi
-func EditFileWithDefaultEditor(filePath string) error {
+// Returns content of the file and error
+func EditFileWithDefaultEditor(filePath string) (content []byte, err error) {
 	defaultEditor := os.Getenv("EDITOR")
 	if defaultEditor == "" {
 		defaultEditor = "vi"
@@ -56,6 +57,10 @@ func EditFileWithDefaultEditor(filePath string) error {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	err := cmd.Run()
-	return err
+	err = cmd.Run()
+	if err != nil {
+		return
+	}
+	content, err = ioutil.ReadFile(filePath)
+	return
 }
