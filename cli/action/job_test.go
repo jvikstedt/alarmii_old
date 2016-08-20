@@ -42,7 +42,7 @@ var jobServiceMock = new(JobServiceMock)
 var jobAction = NewJob(writer, jobServiceMock)
 
 func TestList(t *testing.T) {
-	jobs := []models.Job{models.Job{Timing: "@every 15"}}
+	jobs := []models.Job{models.Job{ID: 1, Timing: "@every 15"}}
 	jobServiceMock.On("All").Return(jobs, nil)
 
 	jobAction.List(Context{})
@@ -53,4 +53,5 @@ func TestList(t *testing.T) {
 
 	assert.Equal(t, len(jobs), len(resultJobs))
 	assert.Equal(t, jobs[0].Timing, resultJobs[0].Timing)
+	assert.Equal(t, jobs[0].ID, resultJobs[0].ID)
 }
